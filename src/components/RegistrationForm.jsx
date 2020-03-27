@@ -4,10 +4,11 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 
-const RegistartionForm = ({ handleViewSwitch }) => {
+const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 	const classes = useStyles()
 	const handleSumbit = e => {
 		e.preventDefault()
+		setOpenAlert(true)
 		const { email, password, firstName, lastName } = e.target.elements
 	}
 	return (

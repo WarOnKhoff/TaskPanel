@@ -4,8 +4,9 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 
-const LoginForm = ({ handleViewSwitch }) => {
+const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
 	const handleSumbit = e => {
+		setOpenAlert(true)
 		e.preventDefault()
 		const { email, password } = e.target.elements
 	}

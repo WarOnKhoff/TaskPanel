@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import Alert from '@material-ui/lab/Alert'
 import LoginForm from '../components/LoginForm'
 import RegistrationForm from '../components/RegistrationForm'
+import Snackbar from '@material-ui/core/Snackbar'
 
 const Login = () => {
 	const classes = useStyles()
+	const [openAlert, setOpenAlert] = useState(false)
 	const [view, setView] = useState('login')
 
 	const handleViewSwitch = () => {
@@ -19,12 +22,33 @@ const Login = () => {
 			<div className={classes.header}>TaskPanel</div>
 			<div className={classes.space1} />
 			<div>
-				{view === 'login' && <LoginForm handleViewSwitch={handleViewSwitch} />}
+				{view === 'login' && (
+					<LoginForm
+						handleViewSwitch={handleViewSwitch}
+						setOpenAlert={setOpenAlert}
+					/>
+				)}
 				{view === 'register' && (
-					<RegistrationForm handleViewSwitch={handleViewSwitch} />
+					<RegistrationForm
+						handleViewSwitch={handleViewSwitch}
+						setOpenAlert={setOpenAlert}
+					/>
 				)}
 			</div>
 			<div className={classes.space2} />
+			<Snackbar
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'center',
+				}}
+				open={openAlert}
+				onClose={() => setOpenAlert(false)}
+				autoHideDuration={3000}
+			>
+				<Alert severity='error' variant='filled'>
+					Wrong credentials. Try again.
+				</Alert>
+			</Snackbar>
 		</div>
 	)
 }
@@ -63,6 +87,7 @@ const useStyles = makeStyles({
 		flexBasis: 60,
 		marginBottom: 30,
 	},
+	snackbar: { background: 'red' },
 })
 
 export default Login
