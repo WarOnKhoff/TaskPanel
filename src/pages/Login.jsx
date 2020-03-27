@@ -4,6 +4,7 @@ import Alert from '@material-ui/lab/Alert'
 import LoginForm from '../components/LoginForm'
 import RegistrationForm from '../components/RegistrationForm'
 import Snackbar from '@material-ui/core/Snackbar'
+import logo from '../assets/logo.png'
 
 const Login = () => {
 	const classes = useStyles()
@@ -19,7 +20,9 @@ const Login = () => {
 	}
 	return (
 		<div className={classes.root}>
-			<div className={classes.header}>TaskPanel</div>
+			<div className={classes.header}>
+				<img src={logo} className={classes.logo} />
+			</div>
 			<div className={classes.space1} />
 			<div>
 				{view === 'login' && (
@@ -86,6 +89,10 @@ const useStyles = makeStyles({
 		fontWeight: 'bold',
 		flexBasis: 60,
 		marginBottom: 30,
+	},
+	logo: {
+		width: 80,
+		height: 80,
 	},
 	snackbar: { background: 'red' },
 })
