@@ -3,12 +3,15 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
+	const [loading, setLoading] = React.useState(false)
 	const classes = useStyles()
 	const handleSumbit = e => {
 		e.preventDefault()
 		setOpenAlert(true)
+		setLoading(true)
 		const { email, password, firstName, lastName } = e.target.elements
 	}
 	return (
@@ -22,6 +25,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 						className={classes.mb}
 						label='Email'
 						name='email'
+						disabled={loading}
 						required
 					/>
 					<TextField
@@ -30,6 +34,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 						className={classes.mb}
 						label='First Name'
 						name='firstName'
+						disabled={loading}
 						required
 					/>
 					<TextField
@@ -38,6 +43,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 						className={classes.mb}
 						label='Last Name'
 						name='lastName'
+						disabled={loading}
 						required
 					/>
 					<TextField
@@ -47,6 +53,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 						type='password'
 						name='password'
 						className={classes.mb}
+						disabled={loading}
 						required
 					/>
 					<div className={classes.btnGroup}>
@@ -55,6 +62,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 							color='primary'
 							className={classes.ml}
 							type='submit'
+							disabled={loading}
 						>
 							Register
 						</Button>
@@ -62,9 +70,12 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 							variant='contained'
 							color='primary'
 							onClick={handleViewSwitch}
+							className={classes.ml}
+							disabled={loading}
 						>
 							Back to Login
 						</Button>
+						{loading && <CircularProgress />}
 					</div>
 				</form>
 			</div>

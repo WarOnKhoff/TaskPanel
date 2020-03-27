@@ -3,10 +3,14 @@ import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
+	const [loading, setLoading] = React.useState(false)
+
 	const handleSumbit = e => {
 		setOpenAlert(true)
+		setLoading(true)
 		e.preventDefault()
 		const { email, password } = e.target.elements
 	}
@@ -23,6 +27,7 @@ const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
 						label='Email'
 						name='email'
 						required
+						disabled={loading}
 					/>
 					<TextField
 						variant='outlined'
@@ -32,6 +37,7 @@ const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
 						className={classes.mb}
 						name='password'
 						required
+						disabled={loading}
 					/>
 					<div className={classes.btnGroup}>
 						<Button
@@ -39,6 +45,7 @@ const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
 							color='primary'
 							className={classes.ml}
 							type='submit'
+							disabled={loading}
 						>
 							Login
 						</Button>
@@ -46,9 +53,12 @@ const LoginForm = ({ handleViewSwitch, setOpenAlert }) => {
 							variant='contained'
 							color='primary'
 							onClick={handleViewSwitch}
+							disabled={loading}
+							className={classes.ml}
 						>
 							Register
 						</Button>
+						{loading && <CircularProgress />}
 					</div>
 				</form>
 			</div>
