@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import ReportCard from './ReportCard'
+import UserCard from './UserCard'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-const ReportsTable = ({ data }) => {
+const UsersTable = ({ usersData }) => {
 	const classes = useStyles()
 	return (
 		<Paper className={classes.content}>
@@ -18,28 +18,31 @@ const ReportsTable = ({ data }) => {
 					<TableHead>
 						<TableRow>
 							<TableCell className={classes.tableHead} align='center'>
-								Report Id
+								Id
 							</TableCell>
 							<TableCell className={classes.tableHead} align='center'>
 								Reporter
 							</TableCell>
 							<TableCell className={classes.tableHead} align='center'>
-								Articul
+								Joined
 							</TableCell>
 							<TableCell className={classes.tableHead} align='center'>
-								Quantity
+								Total reports
 							</TableCell>
 							<TableCell className={classes.tableHead} align='center'>
-								Date
+								Last Visit
+							</TableCell>
+							<TableCell className={classes.tableHead} align='center'>
+								Admin
 							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{data.map((item, index) => (
-							<ReportCard
+						{usersData.map((item, index) => (
+							<UserCard
 								className={classes.item}
 								{...item}
-								key={'reportCard' + index}
+								key={'userCard' + index}
 							/>
 						))}
 					</TableBody>
@@ -72,4 +75,4 @@ const useStyles = makeStyles({
 	},
 })
 
-export default ReportsTable
+export default UsersTable

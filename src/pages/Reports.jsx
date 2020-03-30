@@ -6,23 +6,27 @@ import Paper from '@material-ui/core/Paper'
 import Filter from '../components/Filter'
 import CreateReport from '../components/dialogs/CreateReport'
 import ReportsTable from '../components/ReportsTable'
+import UsersTable from '../components/UsersTable'
 import { AppContext } from '../context'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const TasksList = () => {
-	const { loading, currentUser, reports, fetchData } = useContext(AppContext)
+	const { loading, currentUser, reports, users, fetchData } = useContext(
+		AppContext,
+	)
 	const classes = useStyles()
-	const [data, setData] = useState(reports)
+	const [reportsData, setReportsData] = useState(reports)
 	const [openCreate, setOpenCreate] = useState(false)
+	const [openUsersTable, setOpenUsersTable] = useState(false)
 
 	React.useEffect(() => {
-		setData([])
+		setReportsData([])
 		fetchData()
 	}, [])
 
 	React.useMemo(() => {
 		if (!currentUser) return
-		setData(reports)
+		setReportsData(reports)
 	}, [reports])
 
 	return (
@@ -30,18 +34,22 @@ const TasksList = () => {
 			<Header />
 			<Paper className={classes.top}>
 				<div className={classes.reports}>
-					{currentUser.isAdmin ? 'All reports' : 'My reports'} ({reports.length}
-					)
+					{!openUsersTable
+						? currentUser.isAdmin
+							? 'All reports'
+							: 'My reports'
+						: 'All users'}{' '}
+					({!openUsersTable ? reports.length : users.length})
 				</div>
 				<div>
 					{currentUser.isAdmin && (
 						<Button
 							variant='contained'
 							color='primary'
-							onClick={() => setOpenCreate(true)}
+							onClick={() => setOpenUsersTable(prev => !prev)}
 							className={classes.mr}
 						>
-							Show Users
+							{openUsersTable ? 'Show Reports' : 'Show Users'}
 						</Button>
 					)}
 					{!currentUser.isAdmin && (
@@ -56,15 +64,18 @@ const TasksList = () => {
 					)}
 				</div>
 			</Paper>
-			<Paper className={classes.topFilter}>
-				<Filter
-					data={data}
-					setData={setData}
-					initialData={reports}
-					isAdmin={currentUser.isAdmin}
-				/>
-			</Paper>
-			<ReportsTable data={data} />
+			{!openUsersTable && (
+				<Paper className={classes.topFilter}>
+					<Filter
+						data={reportsData}
+						setData={setReportsData}
+						initialData={reports}
+						isAdmin={currentUser.isAdmin}
+					/>
+				</Paper>
+			)}
+			{!openUsersTable && <ReportsTable data={reportsData} />}
+			{openUsersTable && <UsersTable usersData={users} />}
 			<CreateReport open={openCreate} setOpen={setOpenCreate} />
 			{loading && (
 				<div className={classes.spinner}>
