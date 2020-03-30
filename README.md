@@ -1,11 +1,4 @@
-<div align="center" background="#747572">
-<img src="https://i.ibb.co/DkVN19h/logo.jpg"/>
-</div>
-<br>
-<div align="center">
-<img src="https://img.shields.io/github/last-commit/WarOnKhoff/TaskPanel.svg">
-</div>
-<br>
+<h1>TaskPanel App</h1>
 <h2>About</h2>
 <ul>
 <li><a href='#general'>General info</a></li>
