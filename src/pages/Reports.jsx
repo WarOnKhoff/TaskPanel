@@ -23,7 +23,6 @@ const TasksList = () => {
 	React.useMemo(() => {
 		if (!currentUser) return
 		setData(reports)
-		console.log(reports)
 	}, [reports])
 
 	return (
