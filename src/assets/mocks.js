@@ -1,0 +1,126 @@
+import shortid from 'shortid'
+import React from 'react'
+
+export let mocks = [
+	{
+		reportId: shortid.generate(),
+		reporter: 'Aleksandrs Voronkovs',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Aleksandrs Boronkovs',
+		articul: 'TestDetail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test2 Test21',
+		articul: 'Mech',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test3 Test31',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+	{
+		reportId: shortid.generate(),
+		reporter: 'Test Test',
+		articul: 'Detail',
+		quantity: 5,
+		date: new Date(),
+	},
+]
+
+export const updateMocks = obj => mocks.push(obj)
