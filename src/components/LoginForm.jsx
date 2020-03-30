@@ -25,8 +25,8 @@ const LoginForm = ({ history, handleViewSwitch, setOpenAlert }) => {
 					.auth()
 					.signInWithEmailAndPassword(email.value, password.value)
 					.then(getCurrentUser)
-				setLoading(false)
 				history.push('/')
+				setLoading(false)
 			} catch (error) {
 				setLoading(false)
 				setOpenAlert(true)

@@ -7,10 +7,12 @@ const Card = ({ reportId, reporter, articul, quantity, date }) => {
 	return (
 		<TableRow>
 			<TableCell align='center'>{reportId}</TableCell>
-			<TableCell align='center'>{reporter}</TableCell>
+			<TableCell align='center'>{reporter.fullName}</TableCell>
 			<TableCell align='center'>{articul}</TableCell>
 			<TableCell align='center'>{quantity}</TableCell>
-			<TableCell align='center'>{format(date, 'd.MM.Y H:mm')}</TableCell>
+			<TableCell align='center'>
+				{format(new Date(date), 'd.MM.Y H:mm')}
+			</TableCell>
 		</TableRow>
 	)
 }

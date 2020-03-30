@@ -11,14 +11,7 @@ const Header = () => {
 	const classes = useStyles()
 	const { currentUser, setCurrentUser } = useContext(AppContext)
 
-	// const userData = users.find(
-	// 	user => user.email.toLowerCase() === currentUser.email.toLowerCase(),
-	// )
-	// const userFullName = userData && `${userData.firstName} ${userData.lastName}`
-	// const lastVisit = userData && format(new Date(userData.lastVisit), dateFormat)
-
-	const userFullName =
-		currentUser && `${currentUser.firstName} ${currentUser.lastName}`
+	const userFullName = currentUser && currentUser.fullName
 	const lastVisit =
 		currentUser && format(new Date(currentUser.lastVisit), dateFormat)
 

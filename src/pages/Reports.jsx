@@ -6,22 +6,33 @@ import Paper from '@material-ui/core/Paper'
 import Filter from '../components/Filter'
 import CreateReport from '../components/dialogs/CreateReport'
 import ReportsTable from '../components/ReportsTable'
-import { mocks } from '../assets/mocks'
 import { AppContext } from '../context'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const TasksList = () => {
+	const { loading, currentUser, reports, fetchData } = useContext(AppContext)
 	const classes = useStyles()
-	const [data, setData] = useState(mocks)
+	const [data, setData] = useState(reports)
 	const [openCreate, setOpenCreate] = useState(false)
-	const { loading, currentUser } = useContext(AppContext)
+
+	React.useEffect(() => {
+		setData([])
+		fetchData()
+	}, [])
+
+	React.useMemo(() => {
+		if (!currentUser) return
+		setData(reports)
+		console.log(reports)
+	}, [reports])
 
 	return (
 		<div className={classes.root}>
 			<Header />
 			<Paper className={classes.top}>
-				<div className={classes.reports} onClick={() => console.log(loading)}>
-					My Reports (3)
+				<div className={classes.reports}>
+					{currentUser.isAdmin ? 'All reports' : 'My reports'} ({reports.length}
+					)
 				</div>
 				<div>
 					{currentUser.isAdmin && (
@@ -50,7 +61,7 @@ const TasksList = () => {
 				<Filter
 					data={data}
 					setData={setData}
-					initialData={mocks}
+					initialData={reports}
 					isAdmin={currentUser.isAdmin}
 				/>
 			</Paper>

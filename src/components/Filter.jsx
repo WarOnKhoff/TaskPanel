@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
@@ -29,14 +27,16 @@ const Filter = ({ setData, initialData, isAdmin }) => {
 			if (value === 'reporter') {
 				setData(
 					initialData.filter(item =>
-						item[value].toLowerCase().includes(inputValue.toLocaleLowerCase()),
+						item.reporterFullName
+							.toLowerCase()
+							.includes(inputValue.toLocaleLowerCase()),
 					),
 				)
 				return
 			}
 			setData(
-				initialData.filter(
-					item => item[value].toLowerCase() === inputValue.toLowerCase(),
+				initialData.filter(item =>
+					item[value].toLowerCase().includes(inputValue.toLocaleLowerCase()),
 				),
 			)
 		} else {

@@ -8,22 +8,36 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { AppContext } from '../../context'
+import shortid from 'shortid'
+import app, { dateFormat } from '../../config'
+import format from 'date-fns/format'
 
 const CreateReport = ({ open, setOpen }) => {
 	const classes = useStyles()
-	const [loading, setLoading] = React.useState(false)
 	const [articul, setArticul] = React.useState('')
 	const [quantity, setQuantity] = React.useState(0)
+	const [date, setDate] = React.useState(new Date().getTime())
+	const { loading, setLoading, currentUser, createReport } = React.useContext(
+		AppContext,
+	)
 
 	React.useMemo(() => {
-		setLoading(false)
 		setArticul('')
 		setQuantity(0)
 	}, [open])
 
-	const handleSubmit = e => {
+	const handleSubmit = async e => {
 		e.preventDefault()
-		setLoading(true)
+		const newReport = {
+			articul,
+			date: date,
+			quantity,
+			reportId: shortid.generate(),
+			reporterId: currentUser.userId,
+			reporterFullName: currentUser.fullName,
+		}
+		createReport(newReport)
 		setOpen(false)
 	}
 
@@ -36,6 +50,16 @@ const CreateReport = ({ open, setOpen }) => {
 			<DialogTitle id='alert-dialog-title'>Create New Report</DialogTitle>
 			<form onSubmit={handleSubmit}>
 				<DialogContent>
+					<TextField
+						variant='outlined'
+						fullWidth
+						className={classes.mb}
+						label='Reporter'
+						disabled
+						style={{ background: '#F0F0F0' }}
+						value={currentUser.fullName}
+						onChange={e => setArticul(e.target.value)}
+					/>
 					<TextField
 						variant='outlined'
 						fullWidth
@@ -56,6 +80,15 @@ const CreateReport = ({ open, setOpen }) => {
 						required
 						value={quantity}
 						onChange={e => setQuantity(e.target.value)}
+					/>
+					<TextField
+						variant='outlined'
+						fullWidth
+						className={classes.mb}
+						label='Date'
+						disabled={true}
+						style={{ background: '#F0F0F0' }}
+						value={format(new Date(date), dateFormat)}
 					/>
 				</DialogContent>
 				<DialogActions>

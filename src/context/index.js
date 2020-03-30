@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import app from '../config'
 
 export const AppContext = React.createContext()
@@ -12,33 +12,48 @@ export const AppProvider = ({ children }) => {
 	const [reports, setReports] = useState([])
 
 	const fetchData = async () => {
+		setLoading(true)
 		const db = app.firestore()
-		await db
+		const users = await db
 			.collection('users')
 			.get()
 			.then(data => {
 				setUsers(data.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+				return data.docs.map(doc => ({ ...doc.data(), id: doc.id }))
 			})
 		await db
 			.collection('reports')
 			.get()
 			.then(data => {
-				setReports(data.docs.map(doc => ({ ...doc.data(), id: doc.id })))
+				const reports = data.docs.map(doc => ({
+					...doc.data(),
+					id: doc.id,
+					reporter: users.find(usr => usr.userId === doc.data().reporterId),
+				}))
+				return reports
 			})
-		// setUsers(usersData.docs.map(doc => ({ ...doc.data() })))
-		// setReports(reportsData.docs.map(doc => ({ ...doc.data() })))
+			.then(reports => {
+				if (currentUser && !currentUser.isAdmin) {
+					setReports(
+						reports.filter(report => report.reporterId === currentUser.userId),
+					)
+				} else {
+					setReports(reports)
+				}
+				setLoading(false)
+			})
 	}
 
-	// useEffect(() => {
-	// 	console.log('fetchTriggers')
-	// 	fetchData()
-	// }, [loading])
-
 	React.useMemo(() => {
-		if (!currentUser) return
-		console.log('fetch Triggers')
-		fetchData()
-	}, [loading])
+		if (!currentUser || !currentUser.isAdmin) {
+			return
+		} else {
+			app
+				.firestore()
+				.collection('reports')
+				.onSnapshot(() => fetchData())
+		}
+	}, [currentUser])
 
 	const getCurrentUser = async data => {
 		const db = app.firestore()
@@ -62,6 +77,14 @@ export const AppProvider = ({ children }) => {
 			})
 	}
 
+	const createReport = async report => {
+		const db = app.firestore()
+		await db
+			.collection('reports')
+			.add(report)
+			.then(() => fetchData())
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -72,6 +95,8 @@ export const AppProvider = ({ children }) => {
 				loading,
 				setLoading,
 				getCurrentUser,
+				createReport,
+				fetchData,
 			}}
 		>
 			{children}

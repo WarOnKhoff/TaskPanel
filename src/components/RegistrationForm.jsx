@@ -20,6 +20,7 @@ const RegistartionForm = ({ history, handleViewSwitch, setOpenAlert }) => {
 			setLoading(true)
 			const { email, password, firstName, lastName } = event.target.elements
 			try {
+				setLoading(true)
 				await app
 					.auth()
 					.createUserWithEmailAndPassword(email.value, password.value)
@@ -28,6 +29,7 @@ const RegistartionForm = ({ history, handleViewSwitch, setOpenAlert }) => {
 							email: email.value,
 							firstName: firstName.value,
 							lastName: lastName.value,
+							fullName: `${firstName.value} ${lastName.value}`,
 							joined: new Date().getTime(),
 							lastVisit: new Date().getTime(),
 							reports: 0,
