@@ -9,7 +9,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
-const ReportsTable = ({ data }) => {
+const ReportsTable = ({ data, admin, handleUpdateOpen }) => {
 	const classes = useStyles()
 	return (
 		<Paper className={classes.content}>
@@ -32,6 +32,11 @@ const ReportsTable = ({ data }) => {
 							<TableCell className={classes.tableHead} align='center'>
 								Date
 							</TableCell>
+							{admin && (
+								<TableCell className={classes.tableHead} align='center'>
+									Edit
+								</TableCell>
+							)}
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -39,7 +44,9 @@ const ReportsTable = ({ data }) => {
 							<ReportCard
 								className={classes.item}
 								{...item}
+								admin={admin}
 								key={'reportCard' + index}
+								handleUpdateOpen={handleUpdateOpen}
 							/>
 						))}
 					</TableBody>

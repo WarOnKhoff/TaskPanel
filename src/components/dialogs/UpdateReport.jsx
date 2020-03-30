@@ -8,33 +8,36 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { AppContext } from '../../context'
-import shortid from 'shortid'
 import { dateFormat } from '../../config'
 import format from 'date-fns/format'
 
-const CreateReport = ({ open, setOpen }) => {
+const UpdateReport = ({ open, setOpen, selectedReport, setSelectedReport }) => {
 	const classes = useStyles()
+	const { loading, updateReport, reports } = React.useContext(AppContext)
+
 	const [articul, setArticul] = React.useState('')
 	const [quantity, setQuantity] = React.useState(0)
-	const [date] = React.useState(new Date().getTime())
-	const { loading, currentUser, createReport } = React.useContext(AppContext)
+	const [date, setDate] = React.useState(new Date().getTime())
+	const [reporter, setReporter] = React.useState('')
 
 	React.useMemo(() => {
-		setArticul('')
-		setQuantity(0)
+		if (!selectedReport) return
+		const target = reports.find(report => report.reportId === selectedReport)
+		setArticul(target.articul)
+		setQuantity(target.quantity)
+		setDate(target.date)
+		setReporter(target.reporter.fullName)
 	}, [open])
 
 	const handleSubmit = async e => {
 		e.preventDefault()
-		const newReport = {
+		const target = reports.find(report => report.reportId === selectedReport)
+		const updatedReport = {
 			articul,
-			date: date,
 			quantity,
-			reportId: shortid.generate(),
-			reporterId: currentUser.userId,
-			reporterFullName: currentUser.fullName,
 		}
-		createReport(newReport)
+		updateReport(target.id, updatedReport)
+		setSelectedReport(null)
 		setOpen(false)
 	}
 
@@ -54,7 +57,7 @@ const CreateReport = ({ open, setOpen }) => {
 						label='Reporter'
 						disabled
 						style={{ background: '#F0F0F0' }}
-						value={currentUser.fullName}
+						value={reporter}
 						onChange={e => setArticul(e.target.value)}
 					/>
 					<TextField
@@ -104,7 +107,7 @@ const CreateReport = ({ open, setOpen }) => {
 						disabled={loading}
 						type='submit'
 					>
-						Create
+						Update
 					</Button>
 					{loading && <CircularProgress />}
 				</DialogActions>
@@ -119,4 +122,4 @@ const useStyles = makeStyles({
 	},
 })
 
-export default CreateReport
+export default UpdateReport

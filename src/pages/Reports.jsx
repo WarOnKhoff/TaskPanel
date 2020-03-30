@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 import Paper from '@material-ui/core/Paper'
 import Filter from '../components/Filter'
 import CreateReport from '../components/dialogs/CreateReport'
+import UpdateReport from '../components/dialogs/UpdateReport'
 import ReportsTable from '../components/ReportsTable'
 import UsersTable from '../components/UsersTable'
 import { AppContext } from '../context'
@@ -17,7 +18,14 @@ const TasksList = () => {
 	const classes = useStyles()
 	const [reportsData, setReportsData] = useState(reports)
 	const [openCreate, setOpenCreate] = useState(false)
+	const [openUpdate, setOpenUpdate] = useState(false)
 	const [openUsersTable, setOpenUsersTable] = useState(false)
+	const [selectedReport, setSelectedReport] = useState(null)
+
+	const handleUpdateOpen = id => {
+		setSelectedReport(id)
+		setOpenUpdate(true)
+	}
 
 	React.useEffect(() => {
 		setReportsData([])
@@ -74,9 +82,23 @@ const TasksList = () => {
 					/>
 				</Paper>
 			)}
-			{!openUsersTable && <ReportsTable data={reportsData} />}
+			{!openUsersTable && (
+				<ReportsTable
+					data={reportsData}
+					admin={currentUser.isAdmin}
+					handleUpdateOpen={handleUpdateOpen}
+				/>
+			)}
 			{openUsersTable && <UsersTable usersData={users} />}
 			<CreateReport open={openCreate} setOpen={setOpenCreate} />
+			{selectedReport && (
+				<UpdateReport
+					open={openUpdate}
+					setOpen={setOpenUpdate}
+					selectedReport={selectedReport}
+					setSelectedReport={setSelectedReport}
+				/>
+			)}
 			{loading && (
 				<div className={classes.spinner}>
 					<CircularProgress />

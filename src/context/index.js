@@ -92,6 +92,14 @@ export const AppProvider = ({ children }) => {
 			.then(() => fetchData())
 	}
 
+	const updateReport = async (id, updatedFields) => {
+		const db = app.firestore()
+		db.collection('reports')
+			.doc(id)
+			.update(updatedFields)
+			.then(() => fetchData())
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -104,6 +112,7 @@ export const AppProvider = ({ children }) => {
 				getCurrentUser,
 				createReport,
 				fetchData,
+				updateReport,
 			}}
 		>
 			{children}
