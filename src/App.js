@@ -11,7 +11,7 @@ const App = () => {
 			<Router>
 				<PrivateRoute exact path='/' component={Reports} />
 				<Route exact path='/login' component={Login} />
-				{/* <Redirect to='/login' /> */}
+				<Redirect to='/login' />
 			</Router>
 		</AppProvider>
 	)

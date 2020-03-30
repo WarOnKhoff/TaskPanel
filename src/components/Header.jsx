@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import React, { useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import logo from '../assets/logo.png'
 import Button from '@material-ui/core/Button'
@@ -23,7 +23,7 @@ const Header = () => {
 
 	return (
 		<div className={classes.header}>
-			<img src={logo} className={classes.logo} />
+			<img src={logo} className={classes.logo} alt='logo' />
 			<div className={classes.group}>
 				<div className={classes.nameGroup}>
 					<div className={classes.name}>Welcome, {userFullName}</div>
