@@ -11,13 +11,9 @@ const Login = () => {
 	const [openAlert, setOpenAlert] = useState(false)
 	const [view, setView] = useState('login')
 
-	const handleViewSwitch = () => {
-		if (view === 'login') {
-			setView('register')
-		} else {
-			setView('login')
-		}
-	}
+	const handleViewSwitch = () =>
+		view === 'login' ? setView('register') : setView('login')
+
 	return (
 		<div className={classes.root}>
 			<div className={classes.header}>

@@ -1,19 +1,52 @@
-import React from 'react'
+import React, { useContext, useCallback } from 'react'
+import shortid from 'shortid'
 import { makeStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Fade from '@material-ui/core/Fade'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import { withRouter } from 'react-router-dom'
+import app from '../config'
+import { AppContext } from '../context'
 
-const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
-	const [loading, setLoading] = React.useState(false)
+const RegistartionForm = ({ history, handleViewSwitch, setOpenAlert }) => {
+	const { setCurrentUser, loading, setLoading } = useContext(AppContext)
 	const classes = useStyles()
-	const handleSumbit = e => {
-		e.preventDefault()
-		setOpenAlert(true)
-		setLoading(true)
-		const { email, password, firstName, lastName } = e.target.elements
-	}
+
+	const handleSumbit = useCallback(
+		async event => {
+			const db = app.firestore()
+			event.preventDefault()
+			setLoading(true)
+			const { email, password, firstName, lastName } = event.target.elements
+			try {
+				await app
+					.auth()
+					.createUserWithEmailAndPassword(email.value, password.value)
+					.then(data => {
+						const newUsr = {
+							email: email.value,
+							firstName: firstName.value,
+							lastName: lastName.value,
+							joined: new Date().getTime(),
+							lastVisit: new Date().getTime(),
+							reports: 0,
+							isAdmin: false,
+							userId: shortid.generate(),
+						}
+						db.collection('users').add(newUsr)
+						setCurrentUser(newUsr)
+						localStorage.setItem('currentUser', JSON.stringify(newUsr))
+					})
+				history.push('/')
+				setLoading(false)
+			} catch (error) {
+				setLoading(false)
+				setOpenAlert(true)
+			}
+		},
+		[history],
+	)
 	return (
 		<Fade in={true}>
 			<div>
@@ -85,7 +118,7 @@ const RegistartionForm = ({ handleViewSwitch, setOpenAlert }) => {
 
 const useStyles = makeStyles({
 	mb: {
-		marginBottom: 20,
+		marginBottom: 30,
 	},
 	form: {
 		width: 400,
@@ -110,4 +143,4 @@ const useStyles = makeStyles({
 	},
 })
 
-export default RegistartionForm
+export default withRouter(RegistartionForm)
