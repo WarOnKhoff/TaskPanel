@@ -35,10 +35,12 @@ export const AppProvider = ({ children }) => {
 			.then(reports => {
 				if (currentUser && !currentUser.isAdmin) {
 					setReports(
-						reports.filter(report => report.reporterId === currentUser.userId),
+						reports
+							.filter(report => report.reporterId === currentUser.userId)
+							.sort((a, b) => b.date - a.date),
 					)
 				} else {
-					setReports(reports)
+					setReports(reports.sort((a, b) => b.date - a.date))
 				}
 				setLoading(false)
 			})
