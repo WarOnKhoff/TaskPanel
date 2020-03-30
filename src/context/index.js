@@ -80,14 +80,14 @@ export const AppProvider = ({ children }) => {
 	}
 
 	const createReport = async report => {
+		const targetUser = users.find(user => user.userId === currentUser.userId)
 		const db = app.firestore()
 		await db.collection('reports').add(report)
-		const totalReports = users.find(user => user.id === currentUser.id).reports
 		await db
 			.collection('users')
-			.doc(currentUser.id)
+			.doc(targetUser.id)
 			.update({
-				reports: totalReports + 1,
+				reports: targetUser.reports + 1,
 			})
 			.then(() => fetchData())
 	}

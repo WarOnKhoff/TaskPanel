@@ -25,6 +25,7 @@ const RegistartionForm = ({ history, handleViewSwitch, setOpenAlert }) => {
 					.auth()
 					.createUserWithEmailAndPassword(email.value, password.value)
 					.then(data => {
+						console.log(data)
 						const newUsr = {
 							email: email.value,
 							firstName: firstName.value,
@@ -43,6 +44,7 @@ const RegistartionForm = ({ history, handleViewSwitch, setOpenAlert }) => {
 				history.push('/')
 				setLoading(false)
 			} catch (error) {
+				console.log(error)
 				setLoading(false)
 				setOpenAlert(true)
 			}
